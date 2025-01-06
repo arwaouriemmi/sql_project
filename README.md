@@ -53,6 +53,49 @@ Cette requête agrège les données de consommation d'énergie par saison pour c
 ### 17. `quart_température_data.sql`
 Ce script combine les données de consommation d'énergie pour chaque **quart** avec les données de température. Il regroupe les informations par quart et par intervalles de température, permettant d'analyser les tendances de consommation d'énergie en fonction des variations de température au sein de chaque quart. Un quart étant composé de plusieurs régions, cette analyse permet de considérer l'ensemble des régions au sein d'un quart pour une analyse complète.
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 4. De la zone de transit à l'entrepôt
+## Mise à jour incrémentale de l'entrepôt de données
+
+L'objectif de cette procédure est de mettre en place une mise à jour incrémentale de l'entrepôt de données sans recalculer l'intégralité des données. Cela permet d'intégrer de nouvelles données de manière efficace, tout en gérant le passage des données d'un statut à un autre : **temps réel**, **consolidées**, puis **définitives**.
+
+### 1. Concepts clés
+
+- **Données en temps réel** : Ce sont les données fraîches collectées, qui sont immédiatement disponibles mais peuvent encore contenir des erreurs ou des inexactitudes.
+- **Données consolidées** : Ce sont des données qui ont été vérifiées et traitées par des processus de nettoyage et de transformation, mais elles sont encore susceptibles d'évoluer (par exemple, par des révisions périodiques).
+- **Données définitives** : Ce sont les données entièrement validées et finalisées, prêtes pour les rapports ou l'archivage à long terme.
+
+### 2. Procédure de mise à jour incrémentale
+
+La mise à jour incrémentale se fait selon le statut des données. Les nouvelles données arrivent dans l'entrepôt avec un statut initial de **temps réel**, puis elles sont progressivement mises à jour en **données consolidées** et enfin en **données définitives**.
+
+#### a) Phase 1 : Insertion des données en temps réel
+
+**Données en temps réel** : Lors de l’arrivée de nouvelles données, celles-ci sont d'abord insérées dans des tables spécifiques marquées avec le statut **temps réel**.
+- **Exemple** : Des données de consommation énergétique de la journée sont insérées dans une table `consommation_temporelle` avec le statut "temps réel".
+- **Action** : Une requête `INSERT` est exécutée pour ajouter ces nouvelles données sans affecter les données précédemment traitées.
+
+#### b) Phase 2 : Passage des données de temps réel à consolidées
+
+**Consolidation des données** : De manière périodique (par exemple, à la fin de chaque mois), les données en temps réel sont extraites, nettoyées, et agrégées dans des tables de données consolidées. Ces données sont alors marquées comme **consolidées**.
+- **Exemple** : Les données de consommation énergétique mensuelles sont agrégées par région et par mois.
+- **Action** : Une tâche programmée (par exemple, un cron job ou une tâche dans un workflow d'ETL) exécute une **requête d'agrégation** qui extrait les données des tables **temps réel**, effectue les agrégations nécessaires, et insère ces données dans les tables consolidées.
+- Les données insérées dans les tables consolidées sont maintenant considérées comme prêtes à l’analyse, bien que sujettes à des mises à jour futures.
+
+#### c) Phase 3 : Passage des données consolidées à définitives
+
+**Validation finale** : Après une période de révision, les données consolidées sont considérées comme **définitives** lorsqu’elles ont été complètement validées et ne nécessitent plus d'ajustements.
+- **Action** : Une fois qu’une période de révision est passée (par exemple, après un mois), les données consolidées sont marquées comme **définitives**.
+  - Pour chaque table consolidée, une requête `UPDATE` est exécutée pour mettre à jour le statut des données vers **définitives**.
+
+**Ouverture vers une architecture Lambda**
+![image](https://github.com/user-attachments/assets/132b9cf6-ce8f-4219-8da1-a82c65426210)
+
+Bien que cette procédure décrive un processus de mise à jour incrémentale traditionnel, il est possible d’envisager une architecture Lambda pour une gestion plus robuste des données en temps réel et en batch.
+Dans une architecture Lambda, la mise à jour des données pourrait se faire en combinant un traitement batch pour les données consolidées et un traitement temps réel pour les données fraîches. Ce modèle hybride permet de gérer des flux de données en temps réel tout en maintenant des processus batch pour des analyses historiques et consolidées.
+L'implémentation d'une architecture Lambda offre une grande flexibilité et évolutivité, permettant une gestion efficace des données tout au long de leur cycle de vie, tout en optimisant les coûts et la performance.
+
+
 
 
 
