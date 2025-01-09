@@ -2,55 +2,100 @@
 
 Voici les scripts SQL utilisés pour manipuler, agréger et analyser les données de consommation d'énergie et de température pour différentes régions, périodes et intervalles de température. Ci-dessous se trouve une explication du rôle de chaque fichier SQL :
 
-### 1. `cleaned_température.sql`
+### **Energie_Gwh.sql**
+Contient les données de consommation et de production énergétique exprimées en Gigawatt-heure (GWh). Ces données sont la base pour les analyses énergétiques à grande échelle.
+
+### **Energie_Gwhm.sql**
+Fournit les agrégations mensuelles des données énergétiques en GWh, pour simplifier les analyses temporelles à une échelle mensuelle.
+
+### **Energie_Mwh.sql**
+Gère les données énergétiques à une résolution plus fine, exprimées en Mégawatt-heure (MWh), pour des analyses détaillées et des traitements spécifiques.
+
+### **aggregation_prod_cons.sql**
+Agrège les données de production et de consommation énergétique à différents niveaux (régionaux, mensuels, etc.) pour des analyses globales.
+
+### **cleaned_raw_eco2mix.sql**
+Nettoie et transforme les données brutes issues de la source `eco2mix`, en supprimant les valeurs aberrantes et en préparant les données pour des analyses ultérieures.
+
+### **consommation_mois_ecoule.sql**
+Calcule la consommation énergétique cumulée pour le mois écoulé, utile pour identifier les tendances mensuelles.
+
+### **consommation_quotidienne_région.sql**
+Détaille la consommation énergétique quotidienne par région, permettant une analyse granulaire des données locales.
+
+### **cube_consommation_GWh.sql**
+Construit un cube OLAP des données énergétiques en GWh, permettant des agrégations flexibles par date, région, mois, ou année.
+
+### **jour_depassement_annuel.sql**
+Identifie pour chaque année le premier jour où la consommation énergétique cumulée dépasse la production renouvelable cumulée.
+
+### **prod_cons_mois.sql**
+Génère les agrégations mensuelles des données de production et consommation énergétique pour chaque région.
+
+### **production_totale.sql**
+Calcule la production énergétique totale à différents niveaux d'agrégation, en distinguant les différentes sources d'énergie (nucléaire, éolien, solaire, etc.).
+
+### **supp_cols.sql**
+Ajoute des colonnes calculées ou dérivées aux jeux de données, comme des statistiques ou des indicateurs spécifiques.
+
+### **temperature_consumption.sql**
+Combine les données de consommation énergétique avec les données climatiques (températures) pour analyser les corrélations entre les deux.
+
+### **top3_sequences_augmentation_consommation.sql**
+Identifie les trois plus longues séquences d'augmentation continue de la consommation énergétique, à l'échelle régionale ou nationale.
+
+### **top_variations_consommation.sql**
+Repère les 20 plus grandes variations (absolues) de consommation énergétique, classées par ordre décroissant.
+
+### **cleaned_température.sql**
 Ce fichier contient des instructions pour nettoyer et formater les données de température. Il permet d’obtenir des données cohérentes et prêtes à être utilisées pour l’analyse.
 
-### 2. `temperature_consumption.sql`
+### **temperature_consumption.sql**
 Ce fichier lie les données de consommation d'énergie avec les données de température. Il permet d’analyser la consommation d’énergie en fonction des variations de température.
 
-### 3. `région_année_data.sql`
+### **région_année_data.sql**
 Ce fichier agrège les données de consommation d'énergie par année pour chaque **région**. Il permet d’observer les tendances de consommation d'énergie au niveau annuel pour chaque région.
 
-### 4. `région_jour_data.sql`
+### **région_jour_data.sql**
 Ce fichier agrège les données de consommation d'énergie quotidiennes pour chaque **région**. Il permet de suivre les tendances de consommation quotidienne d’énergie dans chaque région.
 
-### 5. `région_mois_data.sql`
+### **région_mois_data.sql**
 Ce fichier agrège les données de consommation d'énergie mensuelles pour chaque **région**. Il permet d’analyser les tendances de consommation d'énergie par mois, au niveau régional.
 
-### 6. `région_saison_data.sql`
+### **région_saison_data.sql**
 Cette requête agrège les données de consommation d'énergie par saison pour chaque **région**. Elle permet d’observer les variations saisonnières de la consommation d'énergie au niveau régional.
 
-### 7. `région_température_data.sql`
+### **région_température_data.sql**
 Ce fichier combine les données de consommation d'énergie pour chaque **région** avec les données de température. Il permet d'analyser l'impact de la température sur la consommation d'énergie pour chaque région.
 
-### 8. `pays_année_data.sql`
+### **pays_année_data.sql**
 Ce fichier agrège les données de consommation d'énergie par année, pour chaque **pays**. Il fournit des informations sur les tendances de consommation d'énergie au niveau annuel pour chaque pays, qui est composé de plusieurs régions.
 
-### 9. `pays_jour_data.sql`
+### **pays_jour_data.sql**
 Ce fichier agrège les données de consommation d'énergie quotidiennes pour chaque **pays**. Il analyse la consommation quotidienne d'énergie en tenant compte des différentes régions composant chaque pays.
 
-### 10. `pays_mois_data.sql`
+### **pays_mois_data.sql**
 Ce fichier agrège les données de consommation d'énergie mensuelles pour chaque **pays**. Cette analyse permet de suivre les tendances mensuelles de consommation d'énergie au sein de chaque pays.
 
-### 11. `pays_saison_data.sql`
+### **pays_saison_data.sql**
 Cette requête agrège les données de consommation d'énergie par saison pour chaque **pays**. Elle permet de comprendre les tendances saisonnières de la consommation d'énergie au niveau national.
 
-### 12. `pays_température_data.sql`
+### **pays_température_data.sql**
 Ce fichier combine les données de consommation d'énergie pour chaque **pays** avec les données de température. Il permet d'analyser les tendances de consommation d'énergie en fonction des variations de température à l’échelle d’un pays.
 
-### 13. `quart_année_data.sql`
+### **quart_année_data.sql**
 Ce fichier agrège les données de consommation d'énergie par année, pour chaque **quart** (qui est un ensemble spécifique de régions). Il fournit des informations sur les tendances de consommation d'énergie au niveau annuel pour chaque quart, qui regroupe plusieurs régions.
 
-### 14. `quart_jour_data.sql`
+### **quart_jour_data.sql**
 Ce script agrège les données de consommation d'énergie quotidiennes par **quart**. Chaque quart étant composé de plusieurs régions, cette analyse permet de suivre les tendances de consommation quotidienne au sein de chaque quart, en tenant compte de la diversité des régions qui le composent.
 
-### 15. `quart_mois_data.sql`
+### **quart_mois_data.sql**
 Ce fichier agrège les données de consommation d'énergie mensuelles par **quart**. Chaque mois est regroupé au sein d'un quart spécifique, et cette analyse permet d'observer les tendances mensuelles de consommation d'énergie au sein des quarts, composés de plusieurs régions.
 
-### 16. `quart_saison_data.sql`
+### **quart_saison_data.sql**
 Cette requête agrège les données de consommation d'énergie par saison pour chaque **quart**. Un quart étant un ensemble de plusieurs régions, cette analyse fournit des informations sur les tendances de consommation d'énergie saisonnières dans chaque quart, en tenant compte des variations régionales.
 
-### 17. `quart_température_data.sql`
+### **quart_température_data.sql**
 Ce script combine les données de consommation d'énergie pour chaque **quart** avec les données de température. Il regroupe les informations par quart et par intervalles de température, permettant d'analyser les tendances de consommation d'énergie en fonction des variations de température au sein de chaque quart. Un quart étant composé de plusieurs régions, cette analyse permet de considérer l'ensemble des régions au sein d'un quart pour une analyse complète.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
