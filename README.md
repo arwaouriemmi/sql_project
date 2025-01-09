@@ -99,7 +99,7 @@ Cette requête agrège les données de consommation d'énergie par saison pour c
 Ce script combine les données de consommation d'énergie pour chaque **quart** avec les données de température. Il regroupe les informations par quart et par intervalles de température, permettant d'analyser les tendances de consommation d'énergie en fonction des variations de température au sein de chaque quart. Un quart étant composé de plusieurs régions, cette analyse permet de considérer l'ensemble des régions au sein d'un quart pour une analyse complète.
 
 ### **cuboide.sql**
-permette de construire le __cuboïde__ (la vue) par mois, par quart et par intervalle de température.
+Permet de construire le __cuboïde__ (la vue) par mois, par quart et par intervalle de température.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## 4. De la zone de transit à l'entrepôt
