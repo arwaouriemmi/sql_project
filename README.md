@@ -3,16 +3,16 @@
 Voici les scripts SQL utilisés pour manipuler, agréger et analyser les données de consommation d'énergie et de température pour différentes régions, périodes et intervalles de température. Ci-dessous se trouve une explication du rôle de chaque fichier SQL :
 
 ### **Energie_Gwh.sql**
-Contient les données de consommation et de production énergétique exprimées en Gigawatt-heure (GWh). Ces données sont la base pour les analyses énergétiques à grande échelle.
+Contient les données de consommation et de production énergétique exprimées en Gigawatt-heure (GWh).
 
 ### **Energie_Gwhm.sql**
 Fournit les agrégations mensuelles des données énergétiques en GWh, pour simplifier les analyses temporelles à une échelle mensuelle.
 
 ### **Energie_Mwh.sql**
-Gère les données énergétiques à une résolution plus fine, exprimées en Mégawatt-heure (MWh), pour des analyses détaillées et des traitements spécifiques.
+Gère les données énergétiques à une résolution plus fine, exprimées en Mégawatt-heure (MWh).
 
 ### **aggregation_prod_cons.sql**
-Agrège les données de production et de consommation énergétique à différents niveaux (régionaux, mensuels, etc.) pour des analyses globales.
+Agrège les données de production et de consommation énergétique à différents niveaux (régionaux, mensuels).
 
 ### **cleaned_raw_eco2mix.sql**
 Nettoie et transforme les données brutes issues de la source `eco2mix`, en supprimant les valeurs aberrantes et en préparant les données pour des analyses ultérieures.
@@ -21,10 +21,10 @@ Nettoie et transforme les données brutes issues de la source `eco2mix`, en supp
 Calcule la consommation énergétique cumulée pour le mois écoulé, utile pour identifier les tendances mensuelles.
 
 ### **consommation_quotidienne_région.sql**
-Détaille la consommation énergétique quotidienne par région, permettant une analyse granulaire des données locales.
+Détaille la consommation énergétique quotidienne par région, permettant une analyse granulaire des données .
 
 ### **cube_consommation_GWh.sql**
-Construit un cube OLAP des données énergétiques en GWh, permettant des agrégations flexibles par date, région, mois, ou année.
+génère un cube de données pour analyser la consommation énergétique en GWh selon plusieurs dimensions : date (jour, mois, année), région et zone géographique (NO, NE, SE, SO, IdF). Il facilite l'agrégation et l'analyse multi-dimensionnelle des données pour identifier des tendances et variations.
 
 ### **jour_depassement_annuel.sql**
 Identifie pour chaque année le premier jour où la consommation énergétique cumulée dépasse la production renouvelable cumulée.
@@ -36,13 +36,13 @@ Génère les agrégations mensuelles des données de production et consommation 
 Calcule la production énergétique totale à différents niveaux d'agrégation, en distinguant les différentes sources d'énergie (nucléaire, éolien, solaire, etc.).
 
 ### **supp_cols.sql**
-Ajoute des colonnes calculées ou dérivées aux jeux de données, comme des statistiques ou des indicateurs spécifiques.
+Enlève les colonnes TCO car elles sont vides et la colonne Date_heure puisqu'il ya y'a une colonne Date et une colonne Heure.
 
 ### **temperature_consumption.sql**
 Combine les données de consommation énergétique avec les données climatiques (températures) pour analyser les corrélations entre les deux.
 
 ### **top3_sequences_augmentation_consommation.sql**
-Identifie les trois plus longues séquences d'augmentation continue de la consommation énergétique, à l'échelle régionale ou nationale.
+Identifie les trois plus longues séquences d'augmentation continue de la consommation énergétique, à l'échelle régionale .
 
 ### **top_variations_consommation.sql**
 Repère les 20 plus grandes variations (absolues) de consommation énergétique, classées par ordre décroissant.
@@ -97,6 +97,9 @@ Cette requête agrège les données de consommation d'énergie par saison pour c
 
 ### **quart_température_data.sql**
 Ce script combine les données de consommation d'énergie pour chaque **quart** avec les données de température. Il regroupe les informations par quart et par intervalles de température, permettant d'analyser les tendances de consommation d'énergie en fonction des variations de température au sein de chaque quart. Un quart étant composé de plusieurs régions, cette analyse permet de considérer l'ensemble des régions au sein d'un quart pour une analyse complète.
+
+### **cuboide.sql**
+permette de construire le __cuboïde__ (la vue) par mois, par quart et par intervalle de température.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## 4. De la zone de transit à l'entrepôt
